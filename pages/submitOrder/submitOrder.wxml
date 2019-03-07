@@ -1,0 +1,17 @@
+
+<block wx:if="{{requestStatus}}">
+    <view class='order_shop_list'>
+        <view wx:for="{{list}}" wx:key="" class='order_shop_item flex_start'>
+            <view class='img_box flex_shrink'>
+                <image src='{{item.Image}}'></image>
+            </view>
+            <view class='flex1 flex_between flex_column ptb10'>
+                <view class='shop_name clamp3'>{{item.Name}}</view>
+                <view class='f28 c6'>x{{item.Amount}}</view>
+            </view>
+        </view>
+    </view>
+
+    <view class='bottom_pay_btn' catchtap='creatOrder'>微信支付 <text>¥{{totalMoney}}</text></view>
+</block>
+

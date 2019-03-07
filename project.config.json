@@ -1,0 +1,56 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.5.0",
+	"appid": "wx480a84b5ad991971",
+	"projectname": "chibei",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "测试",
+					"pathName": "pages/index/index",
+					"query": "scene=openlock%231000001",
+					"scene": "1047"
+				},
+				{
+					"id": 1,
+					"name": "测试",
+					"pathName": "pages/index/index",
+					"query": "path=/pages/index/index?10000000",
+					"scene": "1047"
+				}
+			]
+		}
+	}
+}

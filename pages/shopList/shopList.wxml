@@ -1,0 +1,55 @@
+
+<view>
+    <view class='shop_list_box'>
+        <view wx:for="{{list}}" wx:key="" class='flex_start list_item'>
+            <view class='shop_img flex_shrink'>
+                <image src='{{item.Image}}'></image>
+            </view>
+            <view class='flex1'>
+                <view class='shop_name clamp3'>{{item.Name}}</view>
+                <view class='f20 c9 mt10'>月售{{item.SoldMonthly}}</view>
+                <view class='flex_between flex_items mt20'>
+                    <view class='shop_price'>¥{{item.Price}}</view>
+                    <view class='flex_start flex_items'>
+                        <block wx:if="{{item.num > 0}}">
+                            <image class='less_icon' src='/images/less_icon.png' catchtap='addLessNum' data-types='less' data-option="list" data-index='{{index}}'></image>
+                            <view class='num_text'>{{item.num}}</view>
+                        </block>
+                        <image class='add_icon' src='/images/add_icon.png' catchtap='addLessNum' data-types='add' data-option="list" data-index='{{index}}'></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class='bottom_cart_box flex_between flex_items'>
+        <view>
+            <view class='cart_num_box' catchtap='shopEven' data-types='cart'>
+                <image class='cart_img' src='/images/cart_icon.png'></image>
+                <view wx:if="{{cartNum > 0}}" class='cart_num'>{{cartNum}}</view>
+            </view>
+            <view wx:if="{{totalMoney > 0}}" class='total_money'>¥：{{totalMoney}}</view>
+        </view>
+        <view class='settlement_btn' catchtap='shopEven' data-types='pay'>去结算</view>
+    </view>
+</view>
+
+<view class='tk_modal {{cartTk}}'></view>
+<view class='cart_tk_cont {{cartTk}}'>
+    <view class='cart_tk_top flex_end'>
+        <view class='flex_start flex_items' catchtap='shopEven' data-types='empty'>
+            <image class='del_img' src='/images/del_cart_icon.png'></image>
+            <view class='f24 c9 ml5 mr20'>清空购物车</view>
+        </view>
+    </view>
+    <view class='cart_list'>
+        <view wx:for="{{cartList}}" wx:key="" class='cart_item flex_start flex_items bbe9s'>
+            <view class='cart_name text_overflow'>{{item.Name}}</view>
+            <view class='cart_price'>¥{{item.Price}}</view>
+            <view class='flex_end flex_items flex1'>
+                <image class='cart_less_icon' src='/images/less_icon.png' catchtap='addLessNum' data-types='less' data-option="cart" data-index='{{index}}'></image>
+                <view class='cart_num_text'>{{item.Amount}}</view>
+                <image class='cart_add_icon' src='/images/add_icon.png' catchtap='addLessNum' data-types='add' data-option="cart" data-index='{{index}}'></image>
+            </view>
+        </view>
+    </view>
+</view>

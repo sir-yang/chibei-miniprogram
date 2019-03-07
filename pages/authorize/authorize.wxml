@@ -1,0 +1,11 @@
+
+<view wx:if="{{hasLoading}}" class='plr30'>
+    <image class='authorize_img' src='/images/icon_1.png'></image>
+
+    <block wx:if="{{!err_msg}}">
+        <view class='f30 c9 txt_center'>你还不是授权用户，请申请后继续购买</view>
+        <button wx:if="{{authALter}}" hover-class='none' class='authorize_btn' open-type="getUserInfo" bindgetuserinfo="userInfoHandler">授权用户信息</button>
+        <view wx:else class='authorize_btn' catchtap='getAuth'>申请授权</view>
+    </block>
+    <view wx:else class='f30 c9 txt_center'>{{err_msg}}</view>
+</view>

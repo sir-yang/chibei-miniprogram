@@ -1,0 +1,55 @@
+<view wx:if="{{requestStatus && !isShowScan}}">
+    <image class='err_icon' src='/images/error_icon.png'></image>
+    <view class='err_txt'>{{err_msg}}</view>
+
+    <view class='renew_btn' bindtap='showScan'>重新扫码</view>
+</view>
+
+<!-- 扫码 -->
+<view wx:if="{{requestStatus && isShowScan}}">
+    <view class='flex_center top_box'>
+        <view class='txt_center'>
+            <view class='pos img_box flex_center flex_items'>
+                <view class='mark self_start'>1</view>
+                <image class='sm_1' src='/images/sm_1.png'></image>
+            </view>
+            <view class='f24 c9'>点击扫一扫</view>
+        </view>
+
+        <image class='round' src='/images/sm_4.png'></image>
+
+        <view class='txt_center'>
+            <view class='pos img_box flex_center flex_items'>
+                <view class='mark self_start'>2</view>
+                <image class='sm_2' src='/images/sm_2.png'></image>
+            </view>
+            <view class='f24 c9'>选择商品</view>
+        </view>
+
+        <image class='round' src='/images/sm_4.png'></image>
+
+        <view class='txt_center'>
+            <view class='pos img_box flex_center flex_items'>
+                <view class='mark self_start'>3</view>
+                <image class='sm_3' src='/images/sm_3.png'></image>
+            </view>
+            <view class='f24 c9'>微信支付成功</view>
+        </view>
+    </view>
+
+    <image class='sm_5' catchtap='saomaEvent' src='/images/sm_5.png'></image>
+</view>
+
+<view class='loading-box {{openLoading}}'>
+    <view class="loadEffect">
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+        <view></view>
+    </view>
+    <view class='f24 cf'>正在打开货柜</view>
+</view>

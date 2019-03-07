@@ -1,0 +1,51 @@
+
+Page {
+    background: #f2f3f4;
+}
+.order_shop_list {
+    padding: 0 20rpx 120rpx;
+}
+.order_shop_item {
+    padding: 20rpx 30rpx 20rpx 15rpx;
+    margin-top: 20rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    -webkit-border-radius: 16rpx;
+    -moz-border-radius: 16rpx;
+    -o-border-radius: 16rpx;
+}
+.img_box {
+    width: 250rpx;
+    height: 250rpx;
+    margin-right: 15rpx;
+    background: #fff;
+}
+.img_box image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+}
+.shop_name {
+    font-size: 28rpx;
+    line-height: 44rpx;
+    color: #333;
+}
+
+.shop_num {
+    font-size: 22rpx;
+    color: #666;
+    line-height: 44rpx;
+}
+
+.bottom_pay_btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 98rpx;
+    line-height: 98rpx;
+    text-align: center;
+    background: #ff533b;
+    font-size: 30rpx;
+    color: #fff;
+}

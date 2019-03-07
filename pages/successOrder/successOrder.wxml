@@ -1,0 +1,10 @@
+
+<view>
+    <view class='top_spice'></view>
+    <view class='icon_box pos'>
+        <image class='icon_img' src='/images/order_suc_icon.png'></image>
+        <view class='status_text'>请随手关门</view>
+    </view>
+
+    <view class='buy_btn' catchtap='carryPay'>继续购买</view>
+</view>
