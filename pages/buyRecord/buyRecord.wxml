@@ -1,0 +1,47 @@
+<view class='mlr20'>
+    <view class='list-item' bindtap='viewDetail' data-index='1'>
+        <view class='flex_between flex_items'>
+            <view class='f22 c6'>购买日期：2018-12-22</view>
+            <view class='f20 c9'>已完成</view>
+        </view>
+        <view class='pt10'>
+            <view class='flex_between flex_items mt10'>
+                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲 零食美 国经典原味145g...</view>
+                <view class='f20 c6 ml20'>x1</view>
+            </view>
+            <view class='flex_between flex_items mt10'>
+                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲</view>
+                <view class='f20 c6 ml20'>x1</view>
+            </view>
+        </view>
+        <view class='flex_end flex_items bte9s mt20 pt20'>
+            <view class='f26 c3'>共5件商品
+                <text class='ml20'>实付：</text>
+            </view>
+            <view class='price'>¥ 66.00</view>
+        </view>
+    </view>
+    <view class='list-item' bindtap='viewDetail' data-index='1'>
+        <view class='flex_between flex_items'>
+            <view class='f22 c6'>购买日期：2018-12-22</view>
+            <view class='f20 c9'>已完成</view>
+        </view>
+        <view class='pt10'>
+            <view class='flex_between flex_items mt10'>
+                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲 零食美 国经典原味145g...</view>
+                <view class='f20 c6 ml20'>x1</view>
+            </view>
+            <view class='flex_between flex_items mt10'>
+                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲</view>
+                <view class='f20 c6 ml20'>x1</view>
+            </view>
+        </view>
+        <view class='flex_end flex_items bte9s mt20 pt20'>
+            <view class='f26 c3'>共5件商品
+                <text class='ml20'>实付：</text>
+            </view>
+            <view class='price'>¥ 66.00</view>
+        </view>
+    </view>
+
+</view>

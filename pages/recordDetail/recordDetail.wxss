@@ -1,0 +1,25 @@
+page {
+    background: #f2f3f4;
+}
+
+.order_status {
+    margin-top: 10rpx;
+    padding: 60rpx 30rpx 40rpx;
+    background: #fff;
+}
+
+.goods_item {
+    padding: 35rpx 30rpx;
+    background: #fafafa;
+}
+.goods_item image {
+    display: block;
+    width: 152rpx;
+    height: 152rpx;
+    margin-right: 30rpx;
+}
+
+.price {
+    font-size: 28rpx;
+    color: #ff5a46;
+}

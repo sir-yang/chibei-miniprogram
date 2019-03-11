@@ -48,15 +48,7 @@ Page({
                 that.state.platform = res.platform;
             }
         });
-
-        let token = common.getAccessToken();
-        if (token) {
-            that.getAuth();
-        } else {
-            getApp().globalData.tokenUpdated = function() {
-                that.getAuth();
-            }
-        }
+        that.getAuth();
     },
 
     //找到设备
@@ -104,10 +96,10 @@ Page({
                 services: ['0000fee7-0000-1000-8000-00805f9b34fb'],
                 success: function(res) {
                     console.log(res);
-                    that.getBluetoothDevices()
+                    that.getBluetoothDevices();
                 },
                 fail(res) {
-                    console.log("开启发现设备失败");
+                    console.log('搜索设备失败', res);
                 }
             })
         }, 1000)
@@ -132,7 +124,14 @@ Page({
                     that.lock.mac = res.result.MacAddress;
                     //苹果手机需要先执行搜索并匹配
                     if (that.state.platform == 'ios') {
-                        that.startBluetoothDevicesDiscovery();
+                        wx.openBluetoothAdapter({
+                            success: function(res) {
+                                that.startBluetoothDevicesDiscovery();
+                            },
+                            fail: function(err) {
+                                console.log('初始化适配器失败', err);
+                            }
+                        })
                     } else {
                         //安卓手机直接连
                         that.state.deviceId = MacAddress;
@@ -161,7 +160,6 @@ Page({
                     })
                 }
             });
-
         } else {
             wx.hideLoading();
             that.setData({

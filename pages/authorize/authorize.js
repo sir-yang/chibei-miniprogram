@@ -18,23 +18,11 @@ Page({
      */
     onLoad(options) {
         let that = this;
-        let token = common.getAccessToken();
-        if (token) {
-            common.authInfo(that, (status) => {
-                that.setData({
-                    hasLoading: common.getStorage("hasLoading")
-                });
+        common.authInfo(that, (status) => {
+            that.setData({
+                hasLoading: common.getStorage("hasLoading")
             });
-        } else {
-            getApp().globalData.tokenUpdated = function () {
-                console.log('update success');
-                common.authInfo(that, (status) => {
-                    that.setData({
-                        hasLoading: common.getStorage("hasLoading")
-                    });
-                });
-            }
-        }
+        });
     },
 
     // 申请授权

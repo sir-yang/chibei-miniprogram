@@ -2,6 +2,20 @@
 Page {
     background: #f2f3f4;
 }
+.top_tip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: yellow;
+    text-align: center;
+    font-size: 24rpx;
+    color: #333;
+    line-height: 50rpx;
+}
+.tip_spacing {
+    height: 50rpx;
+}
 .shop_list_box {
     padding: 0 20rpx 160rpx 20rpx;
 }
@@ -50,6 +64,19 @@ Page {
     width: 50rpx;
     height: 50rpx;
 }
+
+.buyRecord {
+    position: fixed;
+    left: 30rpx;
+    bottom: 150rpx;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    background: #3f3b3a;
+    font-size: 22rpx;
+    color: #fff;
+}
+
 
 /* 底部 */
 .bottom_cart_box {

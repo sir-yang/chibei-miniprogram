@@ -140,6 +140,10 @@
 
 /* 内边距 */
 
+.pt10 {
+    padding-top: 10rpx;
+}
+
 .p20 {
     padding: 20rpx;
 }

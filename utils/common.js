@@ -149,7 +149,7 @@ function setToken(token) {
     setInfo('refresh_token', token.RefreshToken);
     //提前一半的时间就要刷新
 
-    let expire = Date.parse(new Date(token.AccessTokenExpire))
+    let expire = Date.parse(new Date(token.AccessTokenExpire));
     let now = Date.parse(new Date());
     let expireIn = (expire - now) / 2;
     setInfo('expire_at', now + expireIn);
@@ -296,8 +296,11 @@ function ab2hex(buffer) {
 function closeBluetoothAdapter() {
     wx.closeBluetoothAdapter({
         success: function(res) {
-
+            console.log('关闭蓝牙模块成功',res);
         },
+        fail(err) {
+            console.log(err);
+        }
     })
 }
 
@@ -309,6 +312,9 @@ function closeConnect(that) {
             success: function(res) {
                 closeBluetoothAdapter();
             },
+            fail(err) {
+                console.log('断开连接失败', err);
+            }
         })
     } else {
         closeBluetoothAdapter();
@@ -371,7 +377,7 @@ function unSignNotify(that, sign) {
                 showClickModal(res.err_msg);
                 return;
             }
-            //   wx.hideLoading();
+
             //获取token结果
             if (res.result.Action === 'gettoken') {
                 //console.log(data);
@@ -390,7 +396,7 @@ function unSignNotify(that, sign) {
                 //开锁成功
                 if (res.result.Result === 'success') {
                     console.log('开锁成功');
-                    closeConnect(that);
+                    closeConnect(that);//断开蓝牙连接
                     showTimeToast('开锁成功');
                     wx.redirectTo({
                         url: '/pages/shopList/shopList'
@@ -399,6 +405,7 @@ function unSignNotify(that, sign) {
                 }
                 //开锁失败
                 console.log('开锁失败');
+                closeConnect(that);//断开蓝牙连接
                 showTimeToast('开锁失败');
                 wx.reLaunch({
                     url: '/pages/index/index?scan=true'
@@ -421,7 +428,6 @@ function getLockToken(that) {
             }
             console.log('发送token');
             send(that, res.result);
-            //send(that,'76ca7414577f37573647bd126cfea84a');
         });
     }, 500);
 }
@@ -449,7 +455,6 @@ function notifyBLECharacteristicValueChange(that) {
             state: true,
             success(res) {
                 console.log("注册通知事件结果:", res)
-
             }
         });
     }, 0);
@@ -461,7 +466,6 @@ function getBLEDeviceCharacteristics(that) {
             deviceId: that.state.deviceId,
             serviceId: that.state.serviceId,
             success(res) {
-                //that.state.uuid
                 //设置监听方法
                 BLECharacteristicValueChange(that);
                 //注册监听
@@ -501,17 +505,9 @@ function connectTO(that) {
 
             //注册广播服务
             //notifyBLECharacteristicValueChange(that);
-
-            //停止搜索
-            return;
-            wx.stopBluetoothDevicesDiscovery({
-                success: function(res) {
-                    console.log(res, '停止搜索');
-                },
-            })
         },
-        fail() {
-            console.log('连接失败');
+        fail(err) {
+            console.log('连接失败', err);
             showTimeToast('连接失败');
             that.setData({
                 openLoading: 'hide',

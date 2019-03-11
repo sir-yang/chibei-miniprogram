@@ -1,0 +1,15 @@
+
+page {
+    background: #f2f3f4;
+}
+.list-item {
+    margin-top: 20rpx;
+    padding: 30rpx;
+    background: #fff;
+    border-radius: 16rpx;
+}
+
+.price {
+    font-size: 28rpx;
+    color: #ff5a46;
+}

@@ -30,16 +30,7 @@ Page({
             title: '加载中...',
             mask: true
         });
-        let that = this;
-        let token = common.getAccessToken();
-        if (token) {
-            that.getCartList('load');
-        } else {
-            getApp().globalData.tokenUpdated = function () {
-                console.log('update success');
-                that.getCartList('load');
-            }
-        }
+        this.getCartList('load');
     },
 
     /**
@@ -59,6 +50,7 @@ Page({
             title: '加载中...',
             mask: true
         });
+        this.state.page = 1;
         this.getGoodsList(1);
     },
 
@@ -284,5 +276,12 @@ Page({
             totalNum,
             totalMoney
         };
+    },
+
+    // 购买记录
+    buyRecord() {
+        wx.navigateTo({
+            url: '/pages/buyRecord/buyRecord'
+        })
     }
 })

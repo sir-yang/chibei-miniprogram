@@ -1,5 +1,7 @@
 
 <view>
+    <view class="top_tip">货柜商品不足时要记得及时重新囤货哦~</view>
+    <view class='tip_spacing'></view>
     <view class='shop_list_box'>
         <view wx:for="{{list}}" wx:key="" class='flex_start list_item'>
             <view class='shop_img flex_shrink'>
@@ -31,6 +33,11 @@
         </view>
         <view class='settlement_btn' catchtap='shopEven' data-types='pay'>去结算</view>
     </view>
+</view>
+
+<view class='buyRecord flex_column flex_center flex_items' bindtap='buyRecord'>
+    <text>购买</text>
+    <text>记录</text>
 </view>
 
 <view class='tk_modal {{cartTk}}'></view>

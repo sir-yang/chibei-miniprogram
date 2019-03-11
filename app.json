@@ -4,7 +4,9 @@
         "pages/authorize/authorize",
         "pages/shopList/shopList",
         "pages/submitOrder/submitOrder",
-        "pages/successOrder/successOrder"
+        "pages/successOrder/successOrder",
+        "pages/buyRecord/buyRecord",
+        "pages/recordDetail/recordDetail"
     ],
     "window": {
         "backgroundTextStyle": "light",

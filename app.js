@@ -22,6 +22,7 @@ App({
                 })
             },
             fail(err) {
+                console.log(err);
                 if (err.errCode == 10001) {
                     common.showClickModal('手机蓝牙功能不可用');
                 }
@@ -31,18 +32,6 @@ App({
 
     onShow(options) {
         let that = this;
-        wx.pro.checkSession().then(() => {
-            let token = common.getAccessToken();
-            if (!token) {
-                console.log('no token');
-            } else if (that.checkToken) {
-                that.checkToken = false;
-            }
-            that.refresh(options);
-        }).catch((_e) => {
-            that.refresh(options);
-        });
-
         wx.getSystemInfo({
             success(res) {
                 let SDKVersion = res.SDKVersion;
@@ -55,21 +44,13 @@ App({
                 }
             }
         });
-    },
 
-    // 刷新token
-    refresh(_options) {
-        let that = this;
-        common.getToken().then((_res) => {
-            common.getPersonInfo().then((info) => {
-                getApp().globalData.tokenUpdated();
-            });
-        });
+        // 获取个人信息
+        common.getPersonInfo().then(() => {});
     },
 
     globalData: {
         commonFun: common,
-        utilFun: util,
-        tokenUpdated: null
+        utilFun: util
     }
 });
