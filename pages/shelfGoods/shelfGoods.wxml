@@ -1,0 +1,41 @@
+<view wx:if="{{requestStatus}}">
+    <view class='status_box flex_center flex_items'>
+        <icon type='success' size='30rpx'></icon>
+        <text class='ml10'>商品已上架</text>
+    </view>
+
+    <view class='goods_list'>
+        <view class='goods_list_cont'>
+            <view class='tit'>{{deviceId ? deviceId : orderdetail.DeviceID}}货柜清单</view>
+            <view class='list_item subtitle flex_start flex_items'>
+                <view class='name'>商品名称</view>
+                <view class='flex1'>单价</view>
+                <view class='flex1'>总数</view>
+                <view class='flex1'>售出</view>
+                <view class='flex1'>剩余</view>
+            </view>
+            <view wx:for="{{orderdetail.Goods}}" wx:key="" class='list_item flex_start flex_items'>
+                <view class='name clamp1'>{{item.SkuName}}</view>
+                <view class='flex1'>{{item.Price}}</view>
+                <view class='flex1'>{{item.MinAmount}}</view>
+                <view class='flex1'>{{item.Sold}}</view>
+                <view class='flex1'>{{item.MinSurplus}}</view>
+            </view>
+        </view>
+        <view class='summary'>共卖出商品：{{orderdetail.SoldAmount}}件， 合计金额：{{orderdetail.SoldFee}}元</view>
+    </view>
+
+    <view class='recycle_btn' bindtap='recycleGoodsEvent' data-types='recycle'>回收货柜</view>
+</view>
+
+<!-- 确认回收 -->
+<view class='tk_modal {{recycle}}' bindtap='recycleGoodsEvent' data-types='close'></view>
+<view class='recycle_modal_cont {{recycle}}'>
+    <form report-submit='true' bindsubmit='recycleGoodsEvent' data-types='sureRecycle'>
+        <view class='f30 c3 txt_center'>货柜回收</view>
+        <view class='description_box flex_start'>
+            <textarea class='flex1' name="remark" placeholder='请输入描述'></textarea>
+        </view>
+        <button class='sure_recycle_btn' form-type='submit' hover-class='none'>确认回收</button>
+    </form>
+</view>

@@ -6,7 +6,7 @@
         "pages/submitOrder/submitOrder",
         "pages/successOrder/successOrder",
         "pages/buyRecord/buyRecord",
-        "pages/recordDetail/recordDetail"
+        "pages/shelfGoods/shelfGoods"
     ],
     "window": {
         "backgroundTextStyle": "light",

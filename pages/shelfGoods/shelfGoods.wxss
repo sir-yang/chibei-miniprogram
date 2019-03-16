@@ -1,0 +1,119 @@
+page {
+    background: #f2f3f4;
+}
+
+.status_box {
+    height: 230rpx;
+    background: #fff;
+    border-top: 1px solid #e9e9e9;
+    font-size: 24rpx;
+    color: #666;
+}
+
+.goods_list {
+    margin-top: 20rpx;
+    padding: 20rpx 30rpx;
+    background: #fff;
+}
+
+.goods_list_cont {
+    border: 1px solid #f6f6f6;
+}
+
+.goods_list_cont .tit {
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    font-size: 32rpx;
+    color: #333;
+    background: #f6f6f6;
+}
+
+.goods_list_cont .list_item {
+    padding: 0 10rpx;
+    height: 65rpx;
+    line-height: 65rpx;
+    font-size: 22rpx;
+    color: #666;
+    border-top: 1px solid #f6f6f6;
+}
+
+.list_item .name {
+    flex: 5;
+}
+
+.goods_list_cont .list_item view.flex1 {
+    text-align: center;
+}
+
+.goods_list_cont .list_item.subtitle {
+    font-size: 28rpx;
+    color: #333;
+}
+
+.summary {
+    margin-top: 40rpx;
+    margin-bottom: 20rpx;
+    font-size: 24rpx;
+    color: #333;
+    text-align: right;
+}
+
+.recycle_btn {
+    margin: 50rpx auto;
+    width: 690rpx;
+    height: 98rpx;
+    background: #ff533b;
+    border-radius: 6rpx;
+    text-align: center;
+    line-height: 98rpx;
+    font-size: 30rpx;
+    color: #fff;
+}
+
+/* 确认回收弹框 */
+.tk_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 99;
+}
+.recycle_modal_cont {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    width: 690rpx;
+    box-sizing: border-box;
+    padding: 75rpx 65rpx 135rpx;
+    background: #fff;
+    border-radius: 20rpx;
+}
+
+.description_box {
+    margin: 40rpx 0;
+    padding: 25rpx 30rpx;
+    background: #f6f6f6;
+    box-sizing: border-box;
+}
+.description_box textarea {
+    flex: 1;
+    padding: 0;
+    line-height: 30rpx;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.sure_recycle_btn {
+    height: 98rpx;
+    background: #ff533b;
+    border-radius: 6rpx;
+    text-align: center;
+    line-height: 98rpx;
+    font-size: 30rpx;
+    color: #fff;
+}

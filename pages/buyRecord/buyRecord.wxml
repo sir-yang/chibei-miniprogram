@@ -1,47 +1,25 @@
-<view class='mlr20'>
-    <view class='list-item' bindtap='viewDetail' data-index='1'>
-        <view class='flex_between flex_items'>
-            <view class='f22 c6'>购买日期：2018-12-22</view>
-            <view class='f20 c9'>已完成</view>
-        </view>
-        <view class='pt10'>
-            <view class='flex_between flex_items mt10'>
-                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲 零食美 国经典原味145g...</view>
-                <view class='f20 c6 ml20'>x1</view>
+<view wx:if="{{requestStatus}}" class='mlr20'>
+    <block wx:if="{{list.length > 0}}">
+        <view class='list-item' wx:for="{{list}}" wx:key="">
+            <view class='flex_between flex_items'>
+                <view class='f22 c6'>购买日期：{{item.AddTime}}</view>
             </view>
-            <view class='flex_between flex_items mt10'>
-                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲</view>
-                <view class='f20 c6 ml20'>x1</view>
+            <view class='pt10'>
+                <view wx:for="{{item.Goods}}" wx:key="" wx:for-item="goods" class='flex_between flex_items mt10'>
+                    <view class='flex1 clamp1 f24 c6'>{{goods.GoodsName}} {{goods.SkuName}}</view>
+                    <!-- <view class='f20 c6 ml20'>x1</view> -->
+                </view>
             </view>
-        </view>
-        <view class='flex_end flex_items bte9s mt20 pt20'>
-            <view class='f26 c3'>共5件商品
-                <text class='ml20'>实付：</text>
-            </view>
-            <view class='price'>¥ 66.00</view>
-        </view>
-    </view>
-    <view class='list-item' bindtap='viewDetail' data-index='1'>
-        <view class='flex_between flex_items'>
-            <view class='f22 c6'>购买日期：2018-12-22</view>
-            <view class='f20 c9'>已完成</view>
-        </view>
-        <view class='pt10'>
-            <view class='flex_between flex_items mt10'>
-                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲 零食美 国经典原味145g...</view>
-                <view class='f20 c6 ml20'>x1</view>
-            </view>
-            <view class='flex_between flex_items mt10'>
-                <view class='flex1 clamp1 f24 c6'>乐事（Lay’s）薯片休闲</view>
-                <view class='f20 c6 ml20'>x1</view>
+            <view class='flex_end flex_items bte9s mt20 pt20'>
+                <view class='f26 c3'>共{{item.Goods.length}}件商品
+                    <text class='ml20'>实付：</text>
+                </view>
+                <view class='price'>¥ {{item.TotalFee}}</view>
             </view>
         </view>
-        <view class='flex_end flex_items bte9s mt20 pt20'>
-            <view class='f26 c3'>共5件商品
-                <text class='ml20'>实付：</text>
-            </view>
-            <view class='price'>¥ 66.00</view>
-        </view>
-    </view>
+        <view wx:if="{{!hasmore}}" class='noMore'>没有更多数据了</view>
+    </block>
+
+    <view wx:if="{{list.length == 0}}" class='noComment'>暂无数据</view>
 
 </view>

@@ -559,3 +559,32 @@
     -moz-box-sizing: border-box;
     -o-box-sizing: border-box;
 }
+
+
+/* 暂无数据 */
+
+.null {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30rpx;
+    color: #999;
+    z-index: 99;
+}
+
+.noComment, .noDetail {
+    text-align: center;
+    font-size: 30rpx;
+    color: #999;
+    padding-top: 100rpx;
+    padding-bottom: 100rpx;
+}
+
+.noMore {
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 28rpx;
+    color: #333;
+    text-align: center;
+}

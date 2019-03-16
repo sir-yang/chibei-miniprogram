@@ -77,6 +77,18 @@ Page {
     color: #fff;
 }
 
+.recycle_float {
+    position: fixed;
+    left: 30rpx;
+    bottom: 250rpx;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    background: #ff533b;
+    font-size: 22rpx;
+    color: #fff;
+}
+
 
 /* 底部 */
 .bottom_cart_box {
@@ -191,4 +203,58 @@ Page {
     font-size: 32rpx;
     line-height: 45rpx;
     margin: 0 10rpx;
+}
+
+
+.recycling_modal_cont {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    width: 690rpx;
+    height: 336rpx;
+    margin-top: -168rpx;
+    margin-left: -345rpx;
+    background: #fff;
+    border-radius: 20rpx;
+    padding: 100rpx 65rpx 0;
+    box-sizing: border-box;
+}
+.recycling_btn,
+.shelf_btn {
+    height: 98rpx;
+    background: #ff533b;
+    border-radius: 6rpx;
+    text-align: center;
+    line-height: 98rpx;
+    font-size: 30rpx;
+    color: #fff;
+}
+
+/* 商品上架 */
+.shelf_modal_cont {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    width: 690rpx;
+    box-sizing: border-box;
+    padding: 75rpx 65rpx 135rpx;
+    background: #fff;
+    border-radius: 20rpx;
+}
+
+.description_box {
+    margin: 40rpx 0;
+    padding: 25rpx 30rpx;
+    background: #f6f6f6;
+    box-sizing: border-box;
+}
+.description_box textarea {
+    flex: 1;
+    padding: 5rpx;
+    font-size: 28rpx;
+    color: #333;
+    box-sizing: border-box;
 }

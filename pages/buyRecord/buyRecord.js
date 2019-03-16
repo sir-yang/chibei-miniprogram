@@ -1,3 +1,5 @@
+let util = require('../../utils/util.js');
+let common = require('../../utils/common.js');
 
 Page({
 
@@ -5,12 +7,13 @@ Page({
      * 页面的初始数据
      */
     data: {
-        list: []
+        requestStatus: false,
+        list: [],
+        hasmore: true //更多数据
     },
 
     state: {
         page: 1,
-        hasmore: true,
         pageOnShow: false,
         isOnReachBottom: true,
         isonPullDownRefresh: false,
@@ -20,7 +23,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        wx.showLoading({
+            title: '加载中...',
+            mask: true
+        });
+        this.getRecordData(1);
     },
 
     /**
@@ -39,7 +46,8 @@ Page({
             title: '加载中...',
             mask: true
         });
-        // this.getGoodsList(1);
+        this.state.page = 1;
+        this.getRecordData(1);
     },
 
     /**
@@ -48,26 +56,50 @@ Page({
     onReachBottom: function() {
         if (this.state.isonPullDownRefresh) return;
         if (!this.state.isOnReachBottom) return;
-        if (!this.state.hasmore) return;
+        if (!this.data.hasmore) return;
         wx.showLoading({
             title: '加载中...',
             mask: true
         });
-        // this.getGoodsList(this.state.page);
+        this.getRecordData(this.state.page);
         this.state.isOnReachBottom = false;
     },
 
     // 获取数据列表
-    getRecordData() {
+    getRecordData(page) {
         let that = this;
-
-    },
-
-    // 查看详情
-    viewDetail(event) {
-        let id = event.currentTarget.dataset.id;
-        wx.navigateTo({
-            url: '/pages/recordDetail/recordDetail'
+        let url = '/api/shop/orderlist';
+        let data = {
+            page
+        }
+        util.httpRequest(url, data).then((res) => {
+            wx.hideLoading();
+            wx.stopPullDownRefresh();
+            if (res.err_code === 0) {
+                let list = that.data.list;
+                let hasmore = that.data.hasmore;
+                if (page > 1) {
+                    list = list.concat(res.result.List);
+                } else {
+                    list = res.result.List;
+                }
+                if (res.result.Pager.CurrentPage == res.result.Pager.NextPage) {
+                    hasmore = false;
+                } else {
+                    hasmore = true;
+                }
+                that.setData({
+                    requestStatus: true,
+                    list,
+                    hasmore
+                })
+                that.state.pageOnShow = true;
+                that.state.isOnReachBottom = true;
+                that.state.isonPullDownRefresh = false;
+                that.state.page = res.result.Pager.NextPage;
+            } else {
+                common.showClickModal(res.err_msg);
+            }
         })
     }
 })

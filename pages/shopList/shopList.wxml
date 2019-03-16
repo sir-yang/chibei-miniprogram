@@ -1,5 +1,4 @@
-
-<view>
+<view wx:if="{{requestStatus}}">
     <view class="top_tip">货柜商品不足时要记得及时重新囤货哦~</view>
     <view class='tip_spacing'></view>
     <view class='shop_list_box'>
@@ -35,9 +34,14 @@
     </view>
 </view>
 
-<view class='buyRecord flex_column flex_center flex_items' bindtap='buyRecord'>
+<!-- 悬浮框 -->
+<view wx:if="{{requestStatus}}" class='buyRecord flex_column flex_center flex_items' bindtap='shopEven' data-types='buyRecord'>
     <text>购买</text>
     <text>记录</text>
+</view>
+<view wx:if="{{recycling == 'show'}}" class='recycle_float flex_column flex_center flex_items' bindtap='shopEven' data-types='recycling'>
+    <text>回收</text>
+    <text>货柜</text>
 </view>
 
 <view class='tk_modal {{cartTk}}'></view>
@@ -59,4 +63,10 @@
             </view>
         </view>
     </view>
+</view>
+
+<!-- 确认送达 -->
+<view class='tk_modal {{shelf}}'></view>
+<view class='recycling_modal_cont {{shelf}}'>
+    <view class='recycling_btn' bindtap='shopEven' data-types='shelf'>确认送达</view>
 </view>

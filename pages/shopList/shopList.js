@@ -7,19 +7,23 @@ Page({
      * 页面的初始数据
      */
     data: {
+        requestStatus: false,
         cartTk: 'hide',
         list: [],
         cartList: [],
         cartNum: 0,
-        totalMoney: 0
+        totalMoney: 0,
+        hasmore: true, //更多数据
+        recycling: 'hide', //回收货柜弹框
+        shelf: 'hide' //商品上架弹框
     },
 
     state: {
         page: 1,
-        hasmore: true,
         pageOnShow: false,
         isOnReachBottom: true,
         isonPullDownRefresh: false,
+        deviceId: '' //上一货柜ID
     },
 
     /**
@@ -60,7 +64,7 @@ Page({
     onReachBottom() {
         if (this.state.isonPullDownRefresh) return;
         if (!this.state.isOnReachBottom) return;
-        if (!this.state.hasmore) return;
+        if (!this.data.hasmore) return;
         wx.showLoading({
             title: '加载中...',
             mask: true
@@ -77,7 +81,7 @@ Page({
     // 事件处理
     shopEven(event) {
         let dataset = event.currentTarget.dataset;
-        if (dataset.types == 'cart'){
+        if (dataset.types == 'cart') {
             let cartTk = this.data.cartTk;
             cartTk = cartTk == 'show' ? 'hide' : 'show';
             if (cartTk == 'show') {
@@ -89,7 +93,7 @@ Page({
             this.store({
                 cartTk
             });
-        } else if (dataset.types == 'empty') {//清空购物车
+        } else if (dataset.types == 'empty') { //清空购物车
             this.clearCart();
         } else if (dataset.types == 'pay') {
             if (this.data.cartNum > 0) {
@@ -99,6 +103,21 @@ Page({
             } else {
                 common.showClickModal('亲，购物车空空如也！');
             }
+        } else if (dataset.types === 'recycling') { //回收货柜
+            let url = '/pages/shelfGoods/shelfGoods';
+            if (this.state.deviceId) {
+                url = '/pages/shelfGoods/shelfGoods?deviceId=' + this.state.deviceId;
+            }
+            wx.navigateTo({
+                url
+            })
+        } else if (dataset.types === 'shelf') { //确认送达
+            this.requestConfirmdelivery();
+
+        } else if (dataset.types === 'buyRecord') { //购买记录
+            wx.navigateTo({
+                url: '/pages/buyRecord/buyRecord'
+            })
         }
     },
 
@@ -125,7 +144,7 @@ Page({
             } else {
                 list[dataset.index].num += 1;
             }
-            let patch =  {
+            let patch = {
                 skuId: list[dataset.index].GoodsSkuID,
                 amount: dataset.option == 'cart' ? list[dataset.index].Amount : list[dataset.index].num
             }
@@ -160,15 +179,30 @@ Page({
             page
         }
         util.httpRequest(url, data).then((res) => {
+            wx.stopPullDownRefresh();
+            wx.hideLoading();
             if (res.err_code == 0) {
-                let list = that.data.list;
-                if (that.state.page > 1) {
-                    list = list.concat(res.result.List);
-                } else {
-                    list = res.result.List;
+                that.state.pageOnShow = true;
+                let recycling = that.data.recycling;
+                if (res.result.StaffOption == 'delivery') { //新货柜
+                    that.setData({
+                        shelf: 'show'
+                    })
+                    return;
+                } else if (res.result.StaffOption == 'recycle') { //可回收
+                    recycling = 'show';
                 }
 
-                list.forEach((item)=> {
+                // 用户执行流程
+                let list = that.data.list;
+                let hasmore = that.data.hasmore;
+                if (that.state.page > 1) {
+                    list = list.concat(res.result.Goods.List);
+                } else {
+                    list = res.result.Goods.List;
+                }
+
+                list.forEach((item) => {
                     item.num = 0;
                     if (item.Image.indexOf('https') === -1) {
                         item.Image = common.getStorage('serverurl') + item.Image;
@@ -180,15 +214,25 @@ Page({
                     });
                 });
 
+                if (res.result.Goods.Pager.CurrentPage == res.result.Goods.Pager.NextPage) {
+                    hasmore = false;
+                } else {
+                    hasmore = true;
+                }
+
                 that.setData({
-                    list
+                    requestStatus: true,
+                    list,
+                    hasmore,
+                    recycling
                 });
                 that.state.pageOnShow = true;
-                that.state.page = res.result.Pager.NextPage;
+                that.state.isOnReachBottom = true;
+                that.state.isonPullDownRefresh = false;
+                that.state.page = res.result.Goods.Pager.NextPage;
             } else {
                 common.showClickModal(res.err_msg);
             }
-            wx.hideLoading();
         });
     },
 
@@ -199,7 +243,7 @@ Page({
         util.httpRequest(url).then((res) => {
             if (res.err_code == 0) {
                 console.log('cartList', res.result);
-                if(res.result.List.length == 0 && types == 'cart') {
+                if (res.result.List.length == 0 && types == 'cart') {
                     common.showClickModal('亲，购物车空空如也！');
                 }
                 let total = that.getcartNum(res.result.List);
@@ -229,7 +273,7 @@ Page({
                 let cartNum = total.totalNum;
                 let totalMoney = total.totalMoney;
                 that.store({
-                    cartNum, 
+                    cartNum,
                     totalMoney,
                     cartList: res.result.List,
                     list: shopList
@@ -263,7 +307,7 @@ Page({
             }
         });
     },
-    
+
     // 获取购物车数量   
     getcartNum(list) {
         let totalNum = 0;
@@ -278,10 +322,40 @@ Page({
         };
     },
 
-    // 购买记录
-    buyRecord() {
-        wx.navigateTo({
-            url: '/pages/buyRecord/buyRecord'
+    // 货柜送达
+    requestConfirmdelivery() {
+        let that = this;
+        wx.showLoading({
+            title: '',
+            mask: true
+        })
+
+        let url = '/api/staff/confirmdelivery';
+        util.httpRequest(url).then((res) => {
+            if (res.err_code == 0) {
+                that.setData({
+                    shelf: 'hide'
+                })
+                if (!res.result || res.result == null) {
+                    wx.showModal({
+                        title: '提示',
+                        content: '货柜已送达，可正常开柜售货',
+                        showCancel: false,
+                        success() {
+                            that.getGoodsList(1);
+                        }
+                    })
+                } else { //有回收货柜
+                    if (res.result.hasOwnProperty('RecycleID')) {
+                        that.state.deviceId = res.result.RecycleID;
+                        wx.navigateTo({
+                            url: '/pages/shelfGoods/shelfGoods?deviceId=' + res.result.RecycleID
+                        })
+                    }
+                }
+            } else {
+                common.showClickModal(res.err_msg);
+            }
         })
     }
 })
