@@ -13,11 +13,11 @@ Page({
 
     state: {
         platform: 'ios',
-        deviceId:'',
-        serviceId:'0000FEE7-0000-1000-8000-00805F9B34FB',
-        uuid:{
-          notify:'000036F6-0000-1000-8000-00805F9B34FB',
-          write:'000036F5-0000-1000-8000-00805F9B34FB'
+        deviceId: '',
+        serviceId: '0000FEE7-0000-1000-8000-00805F9B34FB',
+        uuid: {
+            notify: '000036F6-0000-1000-8000-00805F9B34FB',
+            write: '000036F5-0000-1000-8000-00805F9B34FB'
         }
     },
 
@@ -38,17 +38,24 @@ Page({
                 isShowScan: true
             })
         }
-        
-        wx.showLoading({
-            title: '加载中...',
-        });
 
-        wx.getSystemInfo({
-            success(res) {
-                that.state.platform = res.platform;
-            }
-        });
-        that.getAuth();
+        if (common.getStorage('bindcode')) { //配送员信息绑定
+            wx.redirectTo({
+                url: '/pages/authorize/authorize?role=staff'
+            })
+        } else { //开锁流程
+            wx.showLoading({
+                title: '加载中...',
+            });
+
+            wx.getSystemInfo({
+                success(res) {
+                    that.state.platform = res.platform;
+                }
+            });
+            that.getAuth();
+        }
+
     },
 
     //找到设备
@@ -66,7 +73,6 @@ Page({
                             var key = common.ab2hex(res.devices[i].advertisData);
                             let maca = that.lock.mac.replace(/:/g, "").toLowerCase()
                             if (key.indexOf(maca) != -1) {
-                                console.log(2);
                                 that.state.deviceId = res.devices[i].deviceId;
                                 common.connectTO(that, res.devices[i].deviceId);
                                 wx.hideLoading();
@@ -122,21 +128,27 @@ Page({
                     })
                     let MacAddress = res.result.MacAddress;
                     that.lock.mac = res.result.MacAddress;
-                    //苹果手机需要先执行搜索并匹配
-                    if (that.state.platform == 'ios') {
-                        wx.openBluetoothAdapter({
-                            success: function(res) {
+                    wx.openBluetoothAdapter({
+                        success: function (res) {
+                            //苹果手机需要先执行搜索并匹配
+                            if (that.state.platform == 'ios') {
                                 that.startBluetoothDevicesDiscovery();
-                            },
-                            fail: function(err) {
-                                console.log('初始化适配器失败', err);
+                            } else {
+                                //安卓手机直接连
+                                that.state.deviceId = MacAddress;
+                                common.connectTO(that);
                             }
-                        })
-                    } else {
-                        //安卓手机直接连
-                        that.state.deviceId = MacAddress;
-                        common.connectTO(that);
-                    }
+                        },
+                        fail: function (err) {
+                            console.log('初始化适配器失败', err);
+                            common.showClickModal('初始化适配器失败');
+                            that.setData({
+                                openLoading: 'hide',
+                                requestStatus: true,
+                                isShowScan: true
+                            })
+                        }
+                    })
                 } else if (res.err_code == 4011) {
                     wx.showModal({
                         title: '提示',
@@ -144,7 +156,7 @@ Page({
                         showCancel: false,
                         success() {
                             wx.reLaunch({
-                                url: '/pages/authorize/authorize'
+                                url: '/pages/authorize/authorize?role=user'
                             });
                         }
                     });
@@ -180,7 +192,7 @@ Page({
     saomaEvent() {
         let that = this;
         wx.scanCode({
-            onlyFromCamera: true,//是否只能从相机扫码
+            onlyFromCamera: true, //是否只能从相机扫码
             success(res) {
                 console.log(res);
                 if (res.hasOwnProperty('path')) {

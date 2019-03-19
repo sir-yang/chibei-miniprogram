@@ -77,28 +77,42 @@ Page({
     // 货柜回收
     requestRecycle(vals) {
         let that = this;
-        let url = '/api/staff/recycle';
         wx.showLoading({
             title: '',
             mask: true
         })
-        util.httpRequest(url, vals, 'POST').then((res) => {
-            wx.hideLoading();
-            if (res.err_code == 0) {
-                common.showClickModal('货柜回收成功');
-                that.setData({
-                    recycle: 'hide'
-                })
-                wx.showModal({
-                    title: '提示',
-                    content: '货柜回收成功',
-                    showCancel: false,
-                    success() {
-                        wx.navigateBack({});
-                    }
-                })
-            } else {
-                common.showClickModal(res.err_msg);
+        let token = common.getStorage('token');
+        let deviceId = common.getStorage('deviceId');
+        wx.request({
+            url: wx.getStorageSync("serverurl") + '/api/staff/recycle',
+            header: {
+                'AccessToken': token ? token : '',
+                'DeviceID': (deviceId || deviceId == 0) ? deviceId : "",
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: JSON.stringify(vals),
+            method: 'POST',
+            success: function(res) {
+                res = res.data;
+                if (res.err_code == 0) {
+                    common.showClickModal('货柜回收成功');
+                    that.setData({
+                        recycle: 'hide'
+                    })
+                    wx.showModal({
+                        title: '提示',
+                        content: '货柜回收成功',
+                        showCancel: false,
+                        success() {
+                            wx.navigateBack({});
+                        }
+                    })
+                } else {
+                    common.showClickModal(res.err_msg);
+                }
+            },
+            fail: function(res) {
+                common.showClickModal('请求失败');
             }
         })
     }

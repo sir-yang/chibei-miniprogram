@@ -31,11 +31,15 @@ Page({
         let that = this;
         let url = '/api/auth/putin';
         let deviceId = common.getStorage('deviceId');
+        wx.showLoading({
+            title: '',
+            mask: true
+        })
         util.httpRequest(url, {
             deviceId: deviceId
         }, 'POST').then((res) => {
             if (res.err_code == 0) {
-                console.log(res);
+                wx.hideLoading();
                 wx.showModal({
                     title: '提示',
                     content: '申请授权成功，等待管理员审核',
