@@ -1,5 +1,6 @@
 let util = require('../../utils/util.js');
 let common = require('../../utils/common.js');
+const app = getApp();
 
 Page({
 
@@ -82,7 +83,7 @@ Page({
             mask: true
         })
         let token = common.getStorage('token');
-        let deviceId = common.getStorage('deviceId');
+        let deviceId = app.globalData.deviceId;
         wx.request({
             url: wx.getStorageSync("serverurl") + '/api/staff/recycle',
             header: {

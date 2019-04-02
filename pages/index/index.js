@@ -1,5 +1,5 @@
 //获取应用实例
-const app = getApp()
+const app = getApp();
 let util = app.globalData.utilFun;
 let common = app.globalData.commonFun;
 
@@ -13,7 +13,7 @@ Page({
 
     state: {
         platform: 'ios',
-        deviceId: '',
+        deviceId: app.globalData.deviceId,
         serviceId: '0000FEE7-0000-1000-8000-00805F9B34FB',
         uuid: {
             notify: '000036F6-0000-1000-8000-00805F9B34FB',
@@ -26,11 +26,7 @@ Page({
     },
 
     onLoad(options) {
-        let that = this;
-        let deviceId = common.getStorage('deviceId');
-        if (deviceId) {
-            that.state.deviceId = deviceId;
-        }
+        let that = this;        
 
         // 判断是否跳转 显示扫码
         if (options.hasOwnProperty('scan')) {
@@ -39,7 +35,7 @@ Page({
             })
         }
 
-        if (common.getStorage('bindcode')) { //配送员信息绑定
+        if (app.globalData.bindcode) { //配送员信息绑定
             wx.redirectTo({
                 url: '/pages/authorize/authorize?role=staff'
             })
@@ -84,10 +80,12 @@ Page({
                         };
                     } else {
                         console.log("没有找到可用蓝牙锁");
+                        common.showTimeToast('没有找到可用蓝牙锁');
                     }
                 },
                 fail(res) {
-                    console.log(res, '获取蓝牙设备列表失败=====')
+                    console.log(res, '获取蓝牙设备列表失败=====');
+                    common.showTimeToast('获取蓝牙设备失败');
                 }
             })
         }, 2000)
@@ -106,6 +104,7 @@ Page({
                 },
                 fail(res) {
                     console.log('搜索设备失败', res);
+                    common.showTimeToast('未找到可用蓝牙锁');
                 }
             })
         }, 1000)
@@ -141,7 +140,7 @@ Page({
                         },
                         fail: function (err) {
                             console.log('初始化适配器失败', err);
-                            common.showClickModal('初始化适配器失败');
+                            common.showTimeToast('初始化适配器失败');
                             that.setData({
                                 openLoading: 'hide',
                                 requestStatus: true,
@@ -201,7 +200,7 @@ Page({
                         let codeArr = code.split('?');
                         console.log(codeArr);
                         let arr1 = codeArr[1].split('=');
-                        common.setStorage("deviceId", arr1[1]);
+                        app.globalData.deviceId = arr1[1];
                         that.state.deviceId = arr1[1];
                         that.getAuth();
                     } else {

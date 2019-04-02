@@ -4,17 +4,13 @@ let util = require('utils/util.js');
 let common = require('utils/common.js');
 
 App({
-    checkToken: false,
     onLaunch(options) {
         console.log(options);
         wx.setStorageSync("serverurl", "https://buyadd.miniprogramadmin.com");
-        if (wx.getStorageSync('bindcode')) {
-            wx.removeStorageSync('bindcode');
-        }
         
         if (options.hasOwnProperty('query')) {
             if (options.query.hasOwnProperty('deviceId')) {
-                common.setStorage("deviceId", options.query.deviceId);
+                this.globalData.deviceId = options.query.deviceId;
                 
                 // 检测蓝牙是否开启
                 wx.openBluetoothAdapter({
@@ -28,14 +24,13 @@ App({
                     fail(err) {
                         console.log(err);
                         if (err.errCode == 10001) {
-                            common.showClickModal('手机蓝牙功能不可用');
+                            common.showClickModal('请打开手机蓝牙');
                         }
                     }
                 })
             } else {//配送员
-                common.setStorage("deviceId", "0");
-                common.setStorage("bindcode", options.query.bindcode);
-                // common.setStorage("bindcode", '1T8h2F5v');
+                this.globalData.deviceId = 0;
+                this.globalData.bindcode = options.query.bindcode;
             }
         }
     },
@@ -61,6 +56,8 @@ App({
 
     globalData: {
         commonFun: common,
-        utilFun: util
+        utilFun: util,
+        deviceId: '',
+        bindcode: ''
     }
 });

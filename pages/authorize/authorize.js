@@ -1,5 +1,6 @@
 let util = require('../../utils/util.js');
 let common = require('../../utils/common.js');
+const app = getApp();
 
 
 Page({
@@ -8,7 +9,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        hasLoading: false,
         authALter: false,
         err_msg: ''
     },
@@ -20,8 +20,7 @@ Page({
         let that = this;
         common.authInfo(that, (status) => {
             that.setData({
-                role: options.role,
-                hasLoading: common.getStorage("hasLoading")
+                role: options.role
             });
         });
     },
@@ -30,7 +29,7 @@ Page({
     getAuth() {
         let that = this;
         let url = '/api/auth/putin';
-        let deviceId = common.getStorage('deviceId');
+        let deviceId = app.globalData.deviceId;
         wx.showLoading({
             title: '',
             mask: true
@@ -52,9 +51,6 @@ Page({
                 });
             } else {
                 common.showClickModal(res.err_msg);
-                // that.setData({
-                //     err_msg: res.err_msg
-                // });
             }
         });
     },
@@ -67,17 +63,6 @@ Page({
         } else {//员工信息绑定
             let detail = event.detail;
             if (detail.hasOwnProperty('userInfo')) {
-                // wx.showLoading({
-                //     title: '绑定中...',
-                //     mask: true
-                // });
-                // let bindcode = common.getStorage('bindcode');
-                // let vals = {
-                //     code: bindcode,
-                //     nickName: detail.userInfo.nickName,
-                //     headImg: detail.userInfo.avatarUrl
-                // };
-
                 this.staffBind();
             }
         }
@@ -87,7 +72,7 @@ Page({
     staffBind() {
         let that = this;
         let url = '/api/staff/bind';
-        let bindcode = common.getStorage('bindcode');
+        let bindcode = app.globalData.bindcode;
         let data = {
             code: bindcode
         }

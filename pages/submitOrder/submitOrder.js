@@ -23,14 +23,6 @@ Page({
         this.getCartList();
     },
 
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {
-
-    },
-
     // 数据存储
     store(patch) {
         this.setData(patch);

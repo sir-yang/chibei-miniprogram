@@ -1,17 +1,15 @@
 <view class='plr30'>
     <image class='authorize_img' src='/images/icon_1.png'></image>
 
-    <!-- <block wx:if="{{!err_msg}}"> -->
     <view wx:if="{{role == 'user'}}" class='f30 c9 txt_center'>你还不是授权用户，请申请后继续购买</view>
     <block wx:else>
         <view wx:if="{{authALter}}" class='f28 c9 txt_center'>您还未授权，请点击下面按钮绑定信息</view>
         <view wx:else class='f28 c9 txt_center'>您已授权，请退出直接扫描货柜二维码操作</view>
     </block>
+
     <button wx:if="{{authALter}}" hover-class='none' class='authorize_btn' open-type="getUserInfo" bindgetuserinfo="userInfoHandler">授权用户信息</button>
     <block wx:else>
         <view wx:if="{{role == 'user'}}" class='authorize_btn' bindtap='getAuth'>申请授权</view>
         <view wx:else class='authorize_btn' bindtap='staffBind'>配送员信息绑定</view>
     </block>
-    <!-- </block>
-    <view wx:else class='f30 c9 txt_center'>{{err_msg}}</view> -->
 </view>
