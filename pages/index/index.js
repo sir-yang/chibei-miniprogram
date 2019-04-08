@@ -27,7 +27,7 @@ Page({
 
     onLoad(options) {
         let that = this;        
-
+        console.log('index', options);
         // 判断是否跳转 显示扫码
         if (options.hasOwnProperty('scan')) {
             that.setData({
@@ -194,6 +194,7 @@ Page({
             onlyFromCamera: true, //是否只能从相机扫码
             success(res) {
                 console.log(res);
+                app.globalData.isScanCode = true;
                 if (res.hasOwnProperty('path')) {
                     let code = res.path;
                     if (code) {
