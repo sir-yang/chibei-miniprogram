@@ -373,6 +373,7 @@ function unSignNotify(that, sign) {
     setTimeout(() => {
         //请求接口
         util.httpRequest(url, data).then((res) => {
+            console.log('unsign', res);
             if (res.err_code !== 0) {
                 showClickModal(res.err_msg);
                 return;
@@ -455,6 +456,7 @@ function notifyBLECharacteristicValueChange(that) {
             state: true,
             success(res) {
                 console.log("注册通知事件结果:", res)
+                BLECharacteristicValueChange(that)
             }
         });
     }, 0);
@@ -466,10 +468,10 @@ function getBLEDeviceCharacteristics(that) {
             deviceId: that.state.deviceId,
             serviceId: that.state.serviceId,
             success(res) {
-                //设置监听方法
-                BLECharacteristicValueChange(that);
                 //注册监听
                 notifyBLECharacteristicValueChange(that);
+                //设置监听方法
+                // BLECharacteristicValueChange(that);
                 //获取token
                 getLockToken(that);
             }

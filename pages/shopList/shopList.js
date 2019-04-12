@@ -224,7 +224,7 @@ Page({
                     requestStatus: true,
                     list,
                     hasmore,
-                    recycling: 'hide',
+                    recycling,
                     shelf: 'hide'
                 });
                 that.state.pageOnShow = true;

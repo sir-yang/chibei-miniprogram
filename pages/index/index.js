@@ -13,7 +13,7 @@ Page({
 
     state: {
         platform: 'ios',
-        deviceId: app.globalData.deviceId,
+        deviceId: '',
         serviceId: '0000FEE7-0000-1000-8000-00805F9B34FB',
         uuid: {
             notify: '000036F6-0000-1000-8000-00805F9B34FB',
@@ -40,6 +40,7 @@ Page({
                 url: '/pages/authorize/authorize?role=staff'
             })
         } else { //开锁流程
+            that.state.deviceId = app.globalData.deviceId;
             wx.showLoading({
                 title: '加载中...',
             });
@@ -126,7 +127,8 @@ Page({
                         openLoading: 'show'
                     })
                     let MacAddress = res.result.MacAddress;
-                    that.lock.mac = res.result.MacAddress;
+                    that.lock.mac = MacAddress;
+                    console.log('mac', MacAddress);
                     wx.openBluetoothAdapter({
                         success: function (res) {
                             //苹果手机需要先执行搜索并匹配

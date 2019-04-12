@@ -85,16 +85,17 @@ function promisify() {
 
         return new Promise((resolve, reject) => {
             console.log(options.url);
+            console.log('data', options.data);
             let token = common.getStorage('token');
             let deviceId = getApp().globalData.deviceId;
             console.log(deviceId);
-
+        
             let req = {
                 url: wx.getStorageSync("serverurl") + options.url,
                 method: options.method || 'GET',
                 header: {
-                    'AccessToken': token ? token : '',
-                    'DeviceID': (deviceId || deviceId == 0) ? deviceId : ""
+                    'AccessToken': token,
+                    'DeviceID': deviceId
                 },
                 success: (res) => {
                     if (res.statusCode >= 400) {
